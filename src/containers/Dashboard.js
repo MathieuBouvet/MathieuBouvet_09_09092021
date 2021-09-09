@@ -71,6 +71,7 @@ export default class {
     this.document = document
     this.onNavigate = onNavigate
     this.firestore = firestore
+    this.statusListsOpened = [false, false, false];
     $('#arrow-icon1').click((e) => this.handleShowTickets(e, bills, 1))
     $('#arrow-icon2').click((e) => this.handleShowTickets(e, bills, 2))
     $('#arrow-icon3').click((e) => this.handleShowTickets(e, bills, 3))
@@ -118,18 +119,16 @@ export default class {
   }
 
   handleShowTickets(e, bills, index) {
-    if (this.counter === undefined || this.index !== index) this.counter = 0
-    if (this.index === undefined || this.index !== index) this.index = index
-    if (this.counter % 2 === 0) {
-      $(`#arrow-icon${this.index}`).css({ transform: 'rotate(0deg)'})
-      $(`#status-bills-container${this.index}`)
-        .html(cards(filteredBills(bills, getStatus(this.index))))
-      this.counter ++
+    if (!this.statusListsOpened[index-1]) {
+      $(`#arrow-icon${index}`).css({ transform: 'rotate(0deg)'})
+      $(`#status-bills-container${index}`)
+        .html(cards(filteredBills(bills, getStatus(index))))
+        this.statusListsOpened[index-1] = true;
     } else {
-      $(`#arrow-icon${this.index}`).css({ transform: 'rotate(90deg)'})
-      $(`#status-bills-container${this.index}`)
+      $(`#arrow-icon${index}`).css({ transform: 'rotate(90deg)'})
+      $(`#status-bills-container${index}`)
         .html("")
-      this.counter ++
+        this.statusListsOpened[index-1] = false;
     }
 
     bills.forEach(bill => {
