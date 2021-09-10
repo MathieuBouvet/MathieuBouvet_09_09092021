@@ -18,4 +18,28 @@ describe("Given I am connected as an employee", () => {
       expect(dates).toEqual(datesSorted)
     })
   })
+
+  describe("When the Bills page is loading", () => {
+    test("Then the loading page must be rendered", () => {
+      const html = BillsUI({ data: bills, loading: true})
+      document.body.innerHTML = html
+      expect(screen.queryByText("Loading...")).not.toBeNull()
+    })
+  })
+
+  describe("When the Bills page has error", () => {
+    test("Then the error page must be rendered", () => {
+      const html = BillsUI({ data: bills, error: true })
+      document.body.innerHTML = html
+      expect(screen.queryByText("Erreur")).not.toBeNull()
+    })
+
+    test("Then the error message must be displayed", () => {
+      const error = "My test error message"
+      const html = BillsUI({ data: bills, error })
+      document.body.innerHTML = html
+      expect(screen.queryByText(error)).not.toBeNull()
+      expect(screen.getByText(error)).not.toBeNull()
+    })
+  })
 })
