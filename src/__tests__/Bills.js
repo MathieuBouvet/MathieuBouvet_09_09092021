@@ -1,8 +1,13 @@
-import { screen, fireEvent } from "@testing-library/dom"
+import { screen, fireEvent, waitFor } from "@testing-library/dom"
 import BillsUI from "../views/BillsUI.js"
 import { bills } from "../fixtures/bills.js"
 import Bills  from "../containers/Bills.js"
 import { ROUTES, ROUTES_PATH } from "../constants/routes"
+import mockedFirestore from "../__mocks__/firestore"
+import router from "../app/Router"
+
+jest.mock("../app/Firestore", () => mockedFirestore)
+
 
 describe("Given I am connected as an employee", () => {
   describe("When I am on Bills Page", () => {
@@ -78,4 +83,17 @@ describe("Given I am connected as an employee", () => {
       
     })
   })
+
+  describe("When I navigate to Bills ", () => {
+    test("bills are fetched", async () => {
+      localStorage.setItem("user", JSON.stringify({ type: "Employee", email: "a@a" }));
+      const root = document.createElement("div")
+      root.setAttribute("id", "root")
+      document.body.append(root)
+      router()
+      window.onNavigate(ROUTES_PATH.Bills)
+      await waitFor(() => screen.getByText("Mocked bill"))
+    })
+  })
+  
 })
