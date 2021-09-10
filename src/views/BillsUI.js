@@ -27,7 +27,7 @@ export default ({ data: bills, loading, error }) => {
   
   bills?.sort((a, b) => b.date.localeCompare(a.date)); // order by most recent first
   const modal = () => (`
-    <div class="modal fade" id="modaleFile" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade" id="modaleFile" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-testid="proof-preview-modal">
       <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">

@@ -1,6 +1,8 @@
-import { screen } from "@testing-library/dom"
+import { screen, fireEvent } from "@testing-library/dom"
 import BillsUI from "../views/BillsUI.js"
 import { bills } from "../fixtures/bills.js"
+import Bills  from "../containers/Bills.js"
+import { ROUTES, ROUTES_PATH } from "../constants/routes"
 
 describe("Given I am connected as an employee", () => {
   describe("When I am on Bills Page", () => {
@@ -39,7 +41,41 @@ describe("Given I am connected as an employee", () => {
       const html = BillsUI({ data: bills, error })
       document.body.innerHTML = html
       expect(screen.queryByText(error)).not.toBeNull()
-      expect(screen.getByText(error)).not.toBeNull()
+    })
+  })
+
+  describe("When I click on the new bill button", () => {
+    test("Then I should navigate to the new bill page", () => {
+      const html = BillsUI({ data: bills });
+      document.body.innerHTML = html
+      const onNavigate = jest.fn((pathname) => {
+        document.body.innerHTML = ROUTES({ pathname })
+      })
+      new Bills({document, firestore: null, localStorage: window.localStorage, onNavigate })
+      const newBillButton = screen.getByTestId("btn-new-bill")
+      fireEvent.click(newBillButton);
+      expect(onNavigate).toHaveBeenCalledWith(ROUTES_PATH.NewBill)
+      expect(screen.queryByText("Envoyer une note de frais")).not.toBeNull()
+    })
+  })
+
+  describe("When I click on the eye icon on a bill", () => {
+    test("Then a preview of the bill proof should be rendered", () => {
+      $.fn.modal = jest.fn();
+
+      const html = BillsUI({ data: bills });
+      document.body.innerHTML = html
+      new Bills({document, firestore: null, localStorage: window.localStorage, onNavigate: () => {} })
+      
+      const previewProofButtons = screen.getAllByTestId("icon-eye");
+      
+      previewProofButtons.forEach(button => {
+        const imgUrl = button.getAttribute("data-bill-url")
+        fireEvent.click(button);
+        const proofImg = screen.getByTestId("proof")
+        expect(proofImg.getAttribute("src")).toBe(imgUrl)
+      })
+      
     })
   })
 })
