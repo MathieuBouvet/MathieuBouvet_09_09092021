@@ -21,12 +21,26 @@ export default {
                   commentAdmin: "ok",
                   email: "a@a",
                   pct: 20,
-                };
+                }
               },
             },
           ],
-        });
+        })
       },
-    };
+    }
   },
-};
+  storage: {
+    ref() {
+      return this
+    },
+    put() {
+      return Promise.resolve({
+        ref: {
+          getDownloadURL() {
+            return "testUrl"
+          },
+        },
+      })
+    },
+  },
+}
