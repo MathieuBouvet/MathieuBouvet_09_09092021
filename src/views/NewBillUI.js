@@ -1,5 +1,5 @@
 import VerticalLayout from './VerticalLayout.js'
-import { acceptedFileTypes } from '../app/acceptedFileTypes.js'
+import { acceptedFileTypes } from '../constants/acceptedFileTypes.js'
 
 export default () => {
 
