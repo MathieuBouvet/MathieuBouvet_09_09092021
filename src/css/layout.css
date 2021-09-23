@@ -1,12 +1,17 @@
+:root {
+  --vertical-navbar-width: 80px;
+}
+
 .layout {
   display: flex;
 }
 
 .vertical-navbar {
-  width: 80px;
+  width: var(--vertical-navbar-width);
   background-color: #0E5AE5;
   color: #fff;
-  height: 150vh;
+  height: 100vh;
+  position: fixed
 }
 
 .layout-title {
