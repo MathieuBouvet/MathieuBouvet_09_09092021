@@ -10,7 +10,7 @@
   border: solid 1px lightgrey;
   border-radius: 5px;
   padding: 50px;
-  min-height: 100vh;
+  min-height: 75vh;
 }
 
 .content-header {
@@ -52,6 +52,14 @@
   border-radius: 10px;
   padding-bottom: 16px;
   height: 70vh;
+  overflow: auto;
+  position: relative;
+}
+
+#data-table th {
+  position: sticky;
+  top: 0;
+  background-color: white;
 }
 
 .icon-actions {
